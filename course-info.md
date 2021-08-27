@@ -15,7 +15,7 @@ Software Quality Assurance - Fall 2021
 **Instructor's Office Hours:**
 
   * Chat on Microsoft Teams: Mon-Fri 9:00 AM - 6:00 PM
-  * Physical Office Hours: Mon/Wed 11:00 AM - 1:00 PM @ 5423 Sennott Square
+  * Physical Office Hours: Mon 11:00 AM - 12:30 PM, Wed 1:00 - 2:30 PM @ 5423 Sennott Square
 
 **Grading TA Information:**
 
