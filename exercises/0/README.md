@@ -216,7 +216,7 @@ exactly which part of the two strings differed.
 The tests were done using an automated testing infrastructure called JUnit that
 allows you to rigorously test software.  You will eventually learn to use this
 tool too as part of this course!  You can get a sneak peak to see what is being
-tested by viewing [gradescope_autograder/SortedCollectionGrading.java].  If you
+tested by viewing [gradescope_autograder/SortedCollectionGrading.java](gradescope_autograder/SortedCollectionGrading.java).  If you
 don't get a perfect score, that might actually help.  A common programming
 error is to use class variables instead of instance variables, for example.
 
