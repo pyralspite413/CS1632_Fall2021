@@ -1,9 +1,32 @@
+- [Java Assessment Exercise](#java-assessment-exercise)
+  * [Description](#description)
+  * [Clone the GitHub Repository](#clone-the-github-repository)
+  * [Install JDK 8](#install-jdk-8)
+    + [Setting up JDK 8 for Windows](#setting-up-jdk-8-for-windows)
+    + [Setting up JDK 8 for MacOS](#setting-up-jdk-8-for-macos)
+  * [Compile the Code](#compile-the-code)
+  * [Run and Test the Code](#run-and-test-the-code)
+  * [Complete SortedCollection.java](#complete-sortedcollectionjava)
+  * [Submission](#submission)
+  * [GradeScope Feedback](#gradescope-feedback)
+  * [Resources](#resources)
+
 # Java Assessment Exercise
 
 DUE: Sep 3 (Friday), 2021 11:59 PM
 
+Please accept Exercise 0 on **GitHub Classroom** using the following link:
+https://classroom.github.com/a/3lg7on80
+
+When you accept the assignment, a new GitHub repository will be automatically
+created for you with which you will do backup, versioning, and even submission.
+If you are new to git versioning, please read the section [Clone the GitHub
+Repository](#clone-the-github-repository) extra carefully.
+
+## Description
+
 The purpose of this exercise is to assess your Java programming skills coming
-into this class.  Please submit by Wednesday 11:59 PM so that I may give you
+to this class.  Please submit by Wednesday 11:59 PM so that I may give you
 feedback before the add/drop deadline.  I may recommend that some of you drop
 the course if your programming skills are not up to par.  Submission of this
 exercise will take the place of attendance today.  The actual score will only
@@ -21,6 +44,51 @@ of submissions.
 
 Please follow the below instructions.
 
+## Clone the GitHub Repository
+
+For every source code submission in this class, you are asked to create a new
+GitHub repository.  Git is one of the most popular source versioning and
+collaboration tools used in industry and GitHub is a major provider of that
+service.  If you don't already have a GitHub account, please create one.  If
+you are new to GitHub, there is a short git tutorial under the lectures folder:
+[Using_Git.pdf](/lectures/Using_Git.pdf).  Please refer to it as you follow the
+below instructions.
+
+1. If you are new to git source versioning or GitHub, I recommend that you
+start by using the Desktop GUI version.  You can download it from:
+
+2. Once you've installed GitHub Desktop, let's first clone the Exercise 0 GitHub repository to your computer:
+
+   https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop
+
+   Please clone the GitHub Classroom repository that was created for you when you accept the assignment.
+
+   This way, you will have always have up=to-date course materials on your
+computer.  Whenever there are updates to the course materials, the "Pull"
+request button will be activated for the repository on GitHub Desktop.  Clicking
+that button will bring your local folder in sync with the updated materials.
+
+3. Whenever you make improvements to your source code, frequently "Commit" and
+   "Push" those changes to GitHub so that your new changes are versioned.
+
+   Committing your changes will transfer the changes from the source code that
+you are working on to the Local Repository creating a new version.  Pushing
+your changes will upload new versions in your Local Repository to the central
+Remote Repository at GitHub.com.  So only after you Commit and Push will the
+changes be available to your collaborator to Pull (or yourself from a different
+machine).  Committing and Pushing frequently ensures that your changes are
+versioned and backed up, as well as allowing your collaborators to access your
+changes and keep up-to-date.
+
+   Optionally, you may also clone the course repository at
+https://github.com/wonsunahn/CS1632_Fall2021.  Since you don't own this
+repository, you will have to choose the "URL" tab when cloning and input that
+URL.  Also, you will only be able to Pull from the repository and not Push.
+But if you want to have access to course materials while offline, that is a
+great option.  If you do this, please make sure that you click on "Fetch
+Origin" on GitHub Desktop and Pull and changes frequently (before every class)
+to keep up-to-date with newly released materials.
+ 
 ## Install JDK 8
 
 The official Java version for this class is Java 8 (1.8.0.231).  Please install the Java package for your OS at:
@@ -80,46 +148,7 @@ Alternatively, you can use [jEnv](https://www.jenv.be/) that allows you to switc
 
 It's a brew installation so it should be pretty painless.
 
-## Create GitHub Repository
-
-For every source code submission in this class, you are asked to create a new
-GitHub repository.  If you don't already have a GitHub account, please create
-one.  If you are new to GitHub, there is a short git tutorial under the
-lectures folder: [Using_Git.pdf](/lectures/Using_Git.pdf).  Please refer to it
-as you follow the below instructions.
-
-1. If you are new to git source versioning or GitHub, I recommend that you
-start by using the Desktop GUI version.  You can download it from:
-
-2. Once you've installed GitHub Desktop, let's first clone the course repository to your computer:
-
-    https://help.github.com/en/desktop/contributing-to-projects/cloning-a-repository-from-github-to-github-desktop
-
-    You will need to go to the root of the course repository to get the clone link:
-
-    https://github.com/wonsunahn/CS1632_Fall2021
-
-    This way, you will have always have up=to-date course materials on your
-computer.  Whenever there are updates to the course materials, the "Pull"
-request button will be activated for the repository on GitHub Desktop.  Clicking
-that button will bring your local folder in sync with the updated materials.
-
-3. Next, create a new repository just for this exercise:
-
-    https://help.github.com/en/desktop/getting-started-with-github-desktop/creating-your-first-repository-using-github-desktop
-
-    You can name it whatever you want (but preferably something easy to remember, right?).
-
-    Once you've created the repository, copy over the contents of just the exercise
-folder in the course repository to the new repository folder.  Once you've
-copied over the files, you need to "Commit" and "Push" the files to upload
-those files to GitHub.  If you are successful, you should be able to see your
-new repository with the new files at github.com.
-
-4. Whenever you make improvements to your source code, frequently "Commit" and
-   "Push" those changes to GitHub so that your new changes are versioned.
-
-## Compilation
+## Compile the Code
 
 Go to the new repository folder you created for this exercise and make sure that the Java file compiles:
 
@@ -131,7 +160,7 @@ $ javac -d bin src/*.java
 
 You should see no errors at this point
 
-## Running
+## Run and Test the Code
 
 Try running the compiled class file:
 
@@ -158,7 +187,7 @@ sorted: 0 0 0
 
 Your job is to complete SortedCollection so that it works properly.
 
-## Completing SortedCollection.java
+## Complete SortedCollection.java
 
 The places in source code where you are asked to insert or modify code are
 marked by // TODO comments.  Feel free to use any data structure from java.util
@@ -167,18 +196,12 @@ as specified.  Pay attention to the Javadoc comments on top of each method.
 
 ## Submission
 
-You will do GitHub submission to GradeScope.  
-
-1. By now you should have created a new github repository just for this
-   exercise.  Make sure you keep the repository *PRIVATE* so that nobody else
-can access your repository.  Once you are done modifying code, don't forget to
-commit and push your changes to the github repository.
-
-2. When you are done, submit your github repository to GradeScope at the "Java
-   Assessment Exercise" link.  Once you submit, GradeScope will run the
+When you are done, submit your GitHub Classroom repository to GradeScope at the
+"Java Assessment Exercise" link.  Once you submit, GradeScope will run the
 autograder to grade you and give feedback.  If you get deductions, fix your
 code based on the feedback and resubmit.  Repeat until you don't get
-deductions.
+deductions.  Don't forget that you have to Push your changes to upload them to
+the repository.
 
 IMPORTANT: Please keep the github private!  This applies to all future submissions.
 
@@ -192,7 +215,10 @@ exactly which part of the two strings differed.
 
 The tests were done using an automated testing infrastructure called JUnit that
 allows you to rigorously test software.  You will eventually learn to use this
-tool too as part of this course!
+tool too as part of this course!  You can get a sneak peak to see what is being
+tested by viewing [gradescope_autograder/SortedCollectionGrading.java].  If you
+don't get a perfect score, that might actually help.  A common programming
+error is to use class variables instead of instance variables, for example.
 
 ## Resources
 
