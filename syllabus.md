@@ -45,6 +45,8 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 2: Discuss Exercise 2 / Deliverable 2 / TopHat questions
 
+* Deliverable 1 due Monday 9:30 AM (tentative)
+
 * Deliverable 2 released 
 
 * Listen to lectures 
@@ -77,6 +79,8 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 2: Discuss Exercise 3 / Deliverable 3 / TopHat questions
 
+* Deliverable 2 due Monday 9:30 AM (tentative)
+
 * Deliverable 3 released 
 
 * Listen to lectures 
@@ -99,6 +103,8 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 
 * Class 2: Discuss Supplementary Exercise 3 / TopHat questions
 
+* Deliverable 3 due Monday 9:30 AM (tentative)
+
 * Listen to lectures 
   * Static Analysis Part 1
 
@@ -119,6 +125,8 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 * Class 1: In-class Exercise 5: Static Analysis Part 2
 
 * Class 2: Discuss Exercise 5 Part 2 / TopHat questions
+
+* Deliverable 4 due Monday 9:30 AM (tentative)
 
 * Listen to lectures 
   * Pairwise and Combinatorial Testing (READING: AFIST, Chapter 17)
@@ -150,3 +158,9 @@ AFIST = [_A Friendly Introduction to Software Testing_](software-quality-assuran
 * Class 2: Study for Midterm 2 (NO CLASS)
 
 * Midterm 2 on GradeScope: TBD
+
+## WEEK 16 (Week of 13 DEC)
+
+* Final exam week: NO FINAL
+
+* Deliverable 5 due Friday 11:59 PM (tentative)
