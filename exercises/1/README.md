@@ -1,10 +1,10 @@
 - [CS 1632 - Software Quality Assurance](#cs-1632---software-quality-assurance)
   * [Description](#description)
+  * [Test Application: GoatGoatCar](#test-application--goatgoatcar)
   * [Creating a Test Plan](#creating-a-test-plan)
   * [Creating a Traceability Matrix](#creating-a-traceability-matrix)
   * [Reporting Defects](#reporting-defects)
   * [Test Plan / Defect Reporting Tips](#test-plan--defect-reporting-tips)
-  * [Test Application: GoatGoatCar](#test-application--goatgoatcar)
   * [Format](#format)
   * [Submission](#submission)
   * [Groupwork Plan](#groupwork-plan)
@@ -37,6 +37,57 @@ determine how the system works before coming up with a test plan.  Exploring
 the software will give you a good feel of which test cases to add and which
 ones are likely fo uncover defects.  A good test plan has edge cases and corner
 cases as well as base cases.
+
+## Test Application: GoatGoatCar
+
+GoatGoatCar is going to be our way of determining the correct answer to the
+"Monty Hall Problem" (https://en.wikipedia.org/wiki/Monty_Hall_problem).  The
+Monty Hall Problem can be summarized in pictures:
+
+<img alt="Figure 1" src=img/monty-hall-pic-1.jpg width=350>
+<img alt="Figure 2" src=img/monty-hall-pic-2.jpg width=350>
+<img alt="Figure 3" src=img/monty-hall-pic-3.jpg width=350>
+<img alt="Figure 4" src=img/monty-hall-pic-4.jpg width=350>
+<img alt="Figure 5" src=img/monty-hall-pic-5.jpg width=350>
+
+What do you think?  The answer lies in the below illustration:
+
+<img alt="Figure 6" src=img/monty-hall-pic-6.svg width=350>
+
+If you still don't get it, you can read the above wikipedia entry if you like
+reading, or here is a video if you are a more visual learner: https://www.youtube.com/watch?v=9vRUxbzJZ9Y.
+
+Another way to get at the answer is through Monte Carlo simulations, that is
+simulate the game thousands of times to empirically answer the question one
+way or another.  The program we will test today randomly generates games,
+plays them one way another, and gives a summary at the end of what percentage
+of the time switching would give you the "good item" and what percentage of
+the time staying would have won you the "bad" item.
+
+The program will accept four arguments, in this order:
+
+* __"Good" option__ - This will be the item that the player actually wants (e.g., a car).
+
+* __"Bad" option__ - This will be the item that the player does not want (e.g., a goat)
+
+* __Num Times__ - This is the number of rounds that will be simulated.
+
+* __Num Threads__ - This will be the number of threads that the simulation runs in
+
+Example command to execute.  This will use "car" as the good choice, "goat" as
+the bad choice, 10001 as the number of rounds to simulate, and it will do it on
+four threads.
+
+```
+$ java -jar GoatGoatCar.jar car goat 10001 4
+```
+
+GoatGoatCar.jar is available in this directory.  
+
+Create a reasonable test plan based on the [requirements](requirements.md).
+Hint: Try to have a combination of explicit boundary values and implicit
+boundary values as well as interior values in your test cases.  As we learned,
+this is where most of the defects will reside!
 
 ## Creating a Test Plan
 
@@ -122,57 +173,6 @@ steps if you start from a different precondition!
 ## Test Plan / Defect Reporting Tips
 
 Please read [tips.md](tips.md) for additional hints on how to properly document test cases and defects.
-
-## Test Application: GoatGoatCar
-
-GoatGoatCar is going to be our way of determining the correct answer to the
-"Monty Hall Problem" (https://en.wikipedia.org/wiki/Monty_Hall_problem).  The
-Monty Hall Problem can be summarized in pictures:
-
-<img alt="Figure 1" src=img/monty-hall-pic-1.jpg width=350>
-<img alt="Figure 2" src=img/monty-hall-pic-2.jpg width=350>
-<img alt="Figure 3" src=img/monty-hall-pic-3.jpg width=350>
-<img alt="Figure 4" src=img/monty-hall-pic-4.jpg width=350>
-<img alt="Figure 5" src=img/monty-hall-pic-5.jpg width=350>
-
-What do you think?  The answer lies in the below illustration:
-
-<img alt="Figure 6" src=img/monty-hall-pic-6.svg width=350>
-
-If you still don't get it, you can read the above wikipedia entry if you like
-reading, or here is a video if you are a more visual learner: https://www.youtube.com/watch?v=9vRUxbzJZ9Y.
-
-Another way to get at the answer is through Monte Carlo simulations, that is
-simulate the game thousands of times to empirically answer the question one
-way or another.  The program we will test today randomly generates games,
-plays them one way another, and gives a summary at the end of what percentage
-of the time switching would give you the "good item" and what percentage of
-the time staying would have won you the "bad" item.
-
-The program will accept four arguments, in this order:
-
-* __"Good" option__ - This will be the item that the player actually wants (e.g., a car).
-
-* __"Bad" option__ - This will be the item that the player does not want (e.g., a goat)
-
-* __Num Times__ - This is the number of rounds that will be simulated.
-
-* __Num Threads__ - This will be the number of threads that the simulation runs in
-
-Example command to execute.  This will use "car" as the good choice, "goat" as
-the bad choice, 10001 as the number of rounds to simulate, and it will do it on
-four threads.
-
-```
-$ java -jar GoatGoatCar.jar car goat 10001 4
-```
-
-GoatGoatCar.jar is available in this directory.  
-
-Create a reasonable test plan based on the [requirements](requirements.md).
-Hint: Try to have a combination of explicit boundary values and implicit
-boundary values as well as interior values in your test cases.  As we learned,
-this is where most of the defects will reside!
 
 ## Format
 
