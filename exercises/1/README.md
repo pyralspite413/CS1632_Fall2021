@@ -3,7 +3,7 @@
   * [Creating a Test Plan](#creating-a-test-plan)
   * [Creating a Traceability Matrix](#creating-a-traceability-matrix)
   * [Reporting Defects](#reporting-defects)
-  * [Test Plan / Defect Reporting Tips](#test-plan---defect-reporting-tips)
+  * [Test Plan / Defect Reporting Tips](#test-plan--defect-reporting-tips)
   * [Test Application: GoatGoatCar](#test-application--goatgoatcar)
   * [Format](#format)
   * [Submission](#submission)
