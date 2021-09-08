@@ -1,3 +1,12 @@
+- [CS 1632 - Software Testing](#cs-1632---software-testing)
+  * [Deliverable 1](#deliverable-1)
+  * [Format](#format)
+  * [Test Plan / Defect Reporting Tips](#test-plan---defect-reporting-tips)
+  * [Coffee Maker Quest](#coffee-maker-quest)
+  * [Grading](#grading)
+  * [Submission](#submission)
+  * [Groupwork Plan](#groupwork-plan)
+
 # CS 1632 - Software Testing
 Fall Semester 2021
 
