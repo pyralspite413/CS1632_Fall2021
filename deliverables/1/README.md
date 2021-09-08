@@ -14,7 +14,7 @@ Fall Semester 2021
 
 ## Description
 
-For this assignment, your group will determine a **test plan** for the simple game
+For this assignment, your group will determine a test plan for the simple game
 Coffee Maker Quest, based on the requirements listed.  There are several known
 **defects** in the software; you will need to find and report on **at least three**.
 Additionally, a traceability matrix showing the mapping of test cases to
@@ -28,10 +28,10 @@ is fine.  The above can easily be checked via a traceability matrix (which you
 should also deliver). 
 
 Test cases should mention all necessary preconditions, execution steps, and
-postconditions.  Please refer to [Exercise 1](../exercises/1) on how to write
+postconditions.  Please refer to [Exercise 1](../../exercises/1) on how to write
 good test cases.
 
-I expect you to test several edge and corner cases as part of the test plan.
+I expect you to test some **edge cases (at least one)** and some **corner cases (at least one)** as part of the test plan.
 If you do this, I'd estimate that the number of test cases is at least 2x the
 number of requirements.  If the number of test cases is more than 3x the number
 of requirements, you are probably overtesting.
