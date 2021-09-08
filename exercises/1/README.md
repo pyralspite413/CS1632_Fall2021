@@ -162,24 +162,55 @@ Hint: Try to have a combination of explicit boundary values and implicit
 boundary values as well as interior values in your test cases.  As we learned,
 this is where most of the defects will reside!
 
-## Submission
+## Format
 
-Please note that the submission of this exercise takes the place of the
-attendance check for this in-class exercise.  Submission will be reflected on
-your participation grade.  As long as the submission shows any amount of
-reasonable work was done (that is, you don't get a 0 on GradeScope), it will
-count.  On the other hand, the actual score you get on GradeScope will not
-count towards your grade.  It's there only for feedback purposes and help you
-do Deliverable 1 better.  This applies to all future exercises.
-
+You will write a short report that includes the test plan that you created as
+well as your defect report.
 Please use the [ReportTemplate.docx](ReportTemplate.docx) file provided in this
 directory to write your report.  If you don't have a .docx compatible word
 processor, that's perfectly fine as long as you follow the same organization.
 A PDF version of the file is at [ReportTemplate.pdf](ReportTemplate.pdf).
-Please make sure that the traceability matrix, test cases, and defects are on
-seperate pages.  You will be submitting to GradeScope in PDF format.  When you
-submit, you will be asked to assign pages in the PDF file to each rubric item:
-1. Traceability Matrix, 2.  Test Cases, and 3. Defects.  
+
+The report should start with a cover page with:
+* The names of the people in the group
+
+Write a short introduction that includes:
+* IDENTIFIER of one edge case and why you think it is an edge case.
+* IDENTIFIER of one corner case and why you think it is a corner case.
+
+ON A NEW PAGE, a traceability matrix should be provided mapping the test cases
+with their associated requirements.  Remember that all requirements should map
+to AT LEAST ONE test case, and all test cases should map to AT LEAST ONE
+requirement.  
+
+ON A NEW PAGE, a list of the actual test cases should follow.  You may name
+them any way you wish, but please be consistent.  Please write them out in this
+format -
+
+	IDENTIFIER:
+	TEST CASE: 
+	PRECONDITIONS:
+	EXECUTION STEPS:
+	POSTCONDITIONS:
+
+ON A NEW PAGE, list at least two defects found.  The defects should follow the
+defect reporting template:
+
+	IDENTIFIER:
+	SUMMARY:
+	DESCRIPTION:
+	REPRODUCTION STEPS:
+	EXPECTED BEHAVIOR:
+	OBSERVED BEHAVIOR:
+
+## Submission
+
+Submission will be reflected on your participation grade.  As long as the
+submission shows any amount of reasonable work was done (that is, you don't get
+a 0 on GradeScope), it will count.  On the other hand, the actual score you get
+on GradeScope will not count towards your grade.  It's there only for feedback
+purposes and help you do Deliverable 1 better.  This applies to all future
+exercises.
 
 Each pairwise group shall do *one* submission to GradeScope to the **Exercise
 1** link, by *one member* of the group.  The submitting member shall press the
@@ -188,6 +219,11 @@ before or after submission to add his/her partner.  That way, the feedback will
 be accessible to both of you (and the credit).  You may submit as many times as
 you wish before the deadline as long as you make sure of this. This applies to
 all future exercises and deliverables.
+
+When you submit, please make sure that the introduction, traceability matrix,
+test cases, and defects are on seperate pages.  You will be submitting to
+GradeScope in PDF format.  When you submit, you will be asked to assign pages
+in the PDF file to each rubric item.
 
 When your exercise is marked as graded, you should find feedback written on
 your grade details.  Please use the feedback wisely when doing Deliverable 1!
