@@ -54,8 +54,7 @@ What do you think?  The answer lies in the below illustration:
 
 <img alt="Figure 6" src=img/monty-hall-pic-6.svg width=350>
 
-If you still don't get it, you can read the above wikipedia entry if you like
-reading, or here is a video if you are a more visual learner: https://www.youtube.com/watch?v=9vRUxbzJZ9Y.
+If you still don't get it, you can read the above [wikipedia entry](https://en.wikipedia.org/wiki/Monty_Hall_problem).
 
 Another way to get at the answer is through Monte Carlo simulations, that is
 simulate the game thousands of times to empirically answer the question one
