@@ -1,8 +1,8 @@
 - [CS 1632 - Software Testing](#cs-1632---software-testing)
-  * [Deliverable 1](#deliverable-1)
+  * [Description](#description)
+  * [Coffee Maker Quest](#coffee-maker-quest)
   * [Format](#format)
   * [Test Plan / Defect Reporting Tips](#test-plan---defect-reporting-tips)
-  * [Coffee Maker Quest](#coffee-maker-quest)
   * [Grading](#grading)
   * [Submission](#submission)
   * [Groupwork Plan](#groupwork-plan)
@@ -12,7 +12,7 @@ Fall Semester 2021
 
 * DUE: Sep 20, 2021 9:30 AM
 
-## Deliverable 1
+## Description
 
 For this assignment, your group will determine a **test plan** for the simple game
 Coffee Maker Quest, based on the requirements listed.  There are several known
@@ -41,6 +41,21 @@ are AT LEAST three.  Full credit will be given only to those who properly find
 and describe them.  While you are not expected to find all of the defects, a
 reasonable test plan should definitely find at least three.  This is an
 intentionally target-rich environment.
+
+## Coffee Maker Quest
+
+Coffee Maker Quest is a simple game.  The goal is get coffee, sugar, and cream,
+and then drink it so that you can stay up and study.  In order to do so, you
+need to visit several rooms in a house and look around.  Once you have obtained
+all the necessary elements, you win.  If you decide to drink before getting all
+of the necessary elements, you lose.
+
+You can run it downloading the coffeemaker.jar file and running:
+```
+bash$ java -jar coffeemaker.jar
+```
+
+The requirements are listed in the file [requirements.md](requirements.md).
 
 ## Format
 
@@ -131,21 +146,6 @@ The above also applies to defect reporting.
 ## Test Plan / Defect Reporting Tips
 
 Please read [tips.md](tips.md) for additional hints on how to properly document test cases and defects.
-
-## Coffee Maker Quest
-
-Coffee Maker Quest is a simple game.  The goal is get coffee, sugar, and cream,
-and then drink it so that you can stay up and study.  In order to do so, you
-need to visit several rooms in a house and look around.  Once you have obtained
-all the necessary elements, you win.  If you decide to drink before getting all
-of the necessary elements, you lose.
-
-You can run it downloading the coffeemaker.jar file and running:
-```
-bash$ java -jar coffeemaker.jar
-```
-
-The requirements are listed in the file [requirements.md](requirements.md).
 
 ## Grading
 
