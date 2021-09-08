@@ -36,9 +36,7 @@ intentionally target-rich environment.
 ## Format
 
 The report should start with a cover page with:
-* The name of the project under test
 * The names of the people in the group
-* The title "CS 1632 - DELIVERABLE 1: Test Plan and Traceability Matrix"
 
 Write a short introduction that includes:
 * How you divided the work between members of the group.
@@ -63,12 +61,12 @@ format -
 ON A NEW PAGE, list at least three defects found.  The defects should follow
 the defect reporting template:
 
-	 IDENTIFIER:
-	 SUMMARY:
-	 DESCRIPTION:
-	 REPRODUCTION STEPS:
-	 EXPECTED BEHAVIOR:
-	 OBSERVED BEHAVIOR:
+	IDENTIFIER:
+	SUMMARY:
+	DESCRIPTION:
+	REPRODUCTION STEPS:
+	EXPECTED BEHAVIOR:
+	OBSERVED BEHAVIOR:
 
 Please apply all the things you learned through **Exercise 1** to this
 deliverable.  For example, don't forget to include any preconditions at the
