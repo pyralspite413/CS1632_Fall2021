@@ -2,7 +2,7 @@
   * [Description](#description)
   * [Coffee Maker Quest](#coffee-maker-quest)
   * [Format](#format)
-  * [Test Plan / Defect Reporting Tips](#test-plan---defect-reporting-tips)
+  * [Test Plan / Defect Reporting Tips](#test-plan--defect-reporting-tips)
   * [Grading](#grading)
   * [Submission](#submission)
   * [Groupwork Plan](#groupwork-plan)
