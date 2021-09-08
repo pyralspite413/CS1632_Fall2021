@@ -1,6 +1,6 @@
 - [CS 1632 - Software Quality Assurance](#cs-1632---software-quality-assurance)
   * [Description](#description)
-  * [Test Application: GoatGoatCar](#test-application--goatgoatcar)
+  * [Test Application: GoatGoatCar](#test-application-goatgoatcar)
   * [Creating a Test Plan](#creating-a-test-plan)
   * [Creating a Traceability Matrix](#creating-a-traceability-matrix)
   * [Reporting Defects](#reporting-defects)
