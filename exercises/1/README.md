@@ -1,3 +1,15 @@
+- [CS 1632 - Software Quality Assurance](#cs-1632---software-quality-assurance)
+  * [Description](#description)
+  * [Creating a Test Plan](#creating-a-test-plan)
+  * [Creating a Traceability Matrix](#creating-a-traceability-matrix)
+  * [Reporting Defects](#reporting-defects)
+  * [Test Plan / Defect Reporting Tips](#test-plan---defect-reporting-tips)
+  * [Test Application: GoatGoatCar](#test-application--goatgoatcar)
+  * [Format](#format)
+  * [Submission](#submission)
+  * [Groupwork Plan](#groupwork-plan)
+  * [Extra Credit](#extra-credit)
+
 # CS 1632 - Software Quality Assurance
 Fall Semester 2021 - Exercise 1
 
