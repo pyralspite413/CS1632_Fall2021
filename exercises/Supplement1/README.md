@@ -1,3 +1,19 @@
+- [CS 1632 - Software Quality Assurance](#cs-1632---software-quality-assurance)
+  * [Description](#description)
+  * [Connecting to thoth.cs.pitt.edu](#connecting-to-thothcspittedu)
+  * [Building](#building)
+  * [Testing and Debugging Memory Errors](#testing-and-debugging-memory-errors)
+    + [Turning off ASLR (Address Space Layout Randomization)](#turning-off-aslr--address-space-layout-randomization-)
+    + [Using Google ASAN (Address Sanitizer)](#using-google-asan--address-sanitizer-)
+    + [Debugging](#debugging)
+    + [Comparing Google ASAN with Valgrind](#comparing-google-asan-with-valgrind)
+  * [Testing and Debugging Datarace Errors](#testing-and-debugging-datarace-errors)
+    + [Using Google TSAN (Thread Sanitizer)](#using-google-tsan--thread-sanitizer-)
+    + [Debugging](#debugging-1)
+  * [Submission](#submission)
+  * [Division of Work](#division-of-work)
+  * [Resources](#resources)
+
 # CS 1632 - Software Quality Assurance
 Fall Semester 2021 - Supplementary Exercise 1
 
@@ -282,27 +298,27 @@ Now let's see if ASAN can find the bug for us by running the instrumented binary
 
 ```
 $ ./stack_overflow.asan
-second.next = 0x7ffdd8881d00
+[Sent data]
 =================================================================
-==473163==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffdd8881cd0 at pc 0x55856b3162e7 bp 0x7ffdd8881c60 sp 0x7ffdd8881c50
-READ of size 1 at 0x7ffdd8881cd0 thread T0
-    #0 0x55856b3162e6 in send_data /home/PITT/wahn/nondeterminism/C/stack_overflow.c:12
-    #1 0x55856b3164bc in main /home/PITT/wahn/nondeterminism/C/stack_overflow.c:27
-    #2 0x7f5cc67fc0b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)
-    #3 0x55856b3161cd in _start (/u/home/PITT/wahn/nondeterminism/C/stack_overflow.asan+0x11cd)
+==2438106==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7fffd2a23770 at pc 0x556267aa2353 bp 0x7fffd2a236f0 sp 0x7fffd2a236e0
+READ of size 1 at 0x7fffd2a23770 thread T0
+    #0 0x556267aa2352 in send_data /home/PITT/wahn/nondeterminism/C/stack_overflow.c:17
+    #1 0x556267aa2809 in main /home/PITT/wahn/nondeterminism/C/stack_overflow.c:45
+    #2 0x7f5c31cfd0b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)
+    #3 0x556267aa222d in _start (/u/home/PITT/wahn/nondeterminism/C/stack_overflow.asan+0x122d)
 
-Address 0x7ffdd8881cd0 is located in stack of thread T0 at offset 48 in frame
-    #0 0x55856b316328 in main /home/PITT/wahn/nondeterminism/C/stack_overflow.c:17
+Address 0x7fffd2a23770 is located in stack of thread T0 at offset 48 in frame
+    #0 0x556267aa2394 in main /home/PITT/wahn/nondeterminism/C/stack_overflow.c:22
 
   This frame has 3 object(s):
-    [32, 48) 'first' (line 18) <== Memory access at offset 48 overflows this variable
-    [64, 80) 'second' (line 18)
-    [96, 112) 'third' (line 18)
+    [32, 48) 'first' (line 23) <== Memory access at offset 48 overflows this variable
+    [64, 80) 'second' (line 23)
+    [96, 112) 'third' (line 23)
 ...
 ```
 
 ASAN is able to pinpoint exactly where the illegal "READ of size 1" happened at
-stack_overflow.c:12!  That is where the out of bounds array access happens.
+stack_overflow.c:17!  That is where the out of bounds array access happens.
 Below that line is the stack trace so we know the calling context.
 
 stack_pointer_return.c is another buggy program with a common error where a
@@ -324,20 +340,19 @@ Let's see if ASAN is able to find this bug:
 
 ```
 $ ./stack_pointer_return.asan
-p = 0x7fffe612ea70
 AddressSanitizer:DEADLYSIGNAL
 =================================================================
-==473332==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x55ddf298f2c7 bp 0x7fffe612ead0 sp 0x7fffe612eab0 T0)
-==473332==The signal is caused by a READ memory access.
-==473332==Hint: address points to the zero page.
-    #0 0x55ddf298f2c6 in send_data /home/PITT/wahn/nondeterminism/C/stack_pointer_return.c:7
-    #1 0x55ddf298f548 in main /home/PITT/wahn/nondeterminism/C/stack_pointer_return.c:22
-    #2 0x7ffada7380b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)
-    #3 0x55ddf298f1ad in _start (/u/home/PITT/wahn/nondeterminism/C/stack_pointer_return.asan+0x11ad)
+==2438240==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x561accf992c7 bp 0x7ffc3c7d7630 sp 0x7ffc3c7d7610 T0)
+==2438240==The signal is caused by a READ memory access.
+==2438240==Hint: address points to the zero page.
+    #0 0x561accf992c6 in send_data /home/PITT/wahn/nondeterminism/C/stack_pointer_return.c:7
+    #1 0x561accf99428 in main /home/PITT/wahn/nondeterminism/C/stack_pointer_return.c:22
+    #2 0x7f40b08d10b2 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x270b2)
+    #3 0x561accf991ad in _start (/u/home/PITT/wahn/nondeterminism/C/stack_pointer_return.asan+0x11ad)
 
 AddressSanitizer can not provide additional info.
 SUMMARY: AddressSanitizer: SEGV /home/PITT/wahn/nondeterminism/C/stack_pointer_return.c:7 in send_data
-==473332==ABORTING
+==2438240==ABORTING
 ```
 
 Again, stack_pointer_return.c:7 is flagged as an illegal read because it is
@@ -467,29 +482,28 @@ Now let's try using TSAN to discover this bug by running the instrumented binary
 ```
 $ ./datarace.tsan
 ==================
-WARNING: ThreadSanitizer: data race (pid=473522)
-  Read of size 4 at 0x557ee2a4d014 by main thread:
-    #0 add /home/PITT/wahn/nondeterminism/C/datarace.c:7 (datarace.tsan+0x129a)
-    #1 main /home/PITT/wahn/nondeterminism/C/datarace.c:16 (datarace.tsan+0x1325)
+WARNING: ThreadSanitizer: data race (pid=2438881)
+  Write of size 4 at 0x55eb33b6f014 by thread T1:
+    #0 add /home/PITT/wahn/nondeterminism/C/datarace.c:8 (datarace.tsan+0x12af)
 
-  Previous write of size 4 at 0x557ee2a4d014 by thread T1:
-    #0 add /home/PITT/wahn/nondeterminism/C/datarace.c:7 (datarace.tsan+0x12af)
-    #1 <null> <null> (libtsan.so.0+0x2d1af)
+  Previous read of size 4 at 0x55eb33b6f014 by main thread:
+    #0 add /home/PITT/wahn/nondeterminism/C/datarace.c:8 (datarace.tsan+0x129a)
+    #1 main /home/PITT/wahn/nondeterminism/C/datarace.c:18 (datarace.tsan+0x1325)
 
-  Location is global 'shared' of size 4 at 0x557ee2a4d014 (datarace.tsan+0x000000004014)
+  Location is global 'shared' of size 4 at 0x55eb33b6f014 (datarace.tsan+0x000000004014)
 
-  Thread T1 (tid=473524, running) created by main thread at:
-    #0 pthread_create <null> (libtsan.so.0+0x5ea99)
-    #1 main /home/PITT/wahn/nondeterminism/C/datarace.c:14 (datarace.tsan+0x131b)
+  Thread T1 (tid=2438883, running) created by main thread at:
+    #0 pthread_create ../../../../src/libsanitizer/tsan/tsan_interceptors_posix.cpp:962 (libtsan.so.0+0x5ea79)
+    #1 main /home/PITT/wahn/nondeterminism/C/datarace.c:16 (datarace.tsan+0x131b)
 
-SUMMARY: ThreadSanitizer: data race /home/PITT/wahn/nondeterminism/C/datarace.c:7 in add
+SUMMARY: ThreadSanitizer: data race /home/PITT/wahn/nondeterminism/C/datarace.c:8 in add
 ==================
-shared=1921984
+shared=1000000
 ThreadSanitizer: reported 1 warnings
 ```
 
 It tells you exactly what each thread was doing to cause the datarace.  The
-"main thread" was executing add in line datarace.c:7 and "thread T1" (the
+"main thread" was executing add in line datarace.c:8 and "thread T1" (the
 child thread) was likewise executing add at the same source line.  That is
 exactly where the unprotected 'shared++' is happening.
 
