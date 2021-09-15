@@ -328,22 +328,32 @@ ASAN is able to pinpoint exactly where the illegal "READ of size 1" happened at
 stack_overflow.c:17!  That is where the out of bounds array access happens.
 Below that line is the stack trace so we know the calling context.
 
-stack_pointer_return.c is another buggy program with a common error where a
-function returns a pointer to a local array.  When the function returns, the
-local array is deallocated with the rest of the function frame as it is now out
-of scope, thereby leaving the pointer dangling.  It leads to a segmentation
-fault:
+stack_pointer_return.c is another buggy program with a common memory error
+where a function returns a pointer to a local array.  When the function
+returns, the local array is deallocated with the rest of the function frame
+as it is now out of scope, thereby leaving the pointer dangling.  Similar to
+the stack overflow memory error, accessing dangling pointers results in
+**undefined behavior** according to the C language specifications.  The
+particular version of GCC installed on the machine (GCC 9.3.0) chose to set
+this dangling pointer to a null pointer before returning from the function
+bar() rather than leaving it dangling (which is a good choice).  So, you get
+deterministic behavior in this case --- it's just that accessing a null
+pointer results in a segmentation fault:
 
 ```
 $ ./stack_pointer_return.bin
 Segmentation fault (core dumped)
-$ ./stack_pointer_return.bin
-Segmentation fault (core dumped)
-$ ./stack_pointer_return.bin
-Segmentation fault (core dumped)
 ```
 
-Let's see if ASAN is able to find this bug:
+Old versions of GCC and some other compilers would just leave the pointer
+dangling which would cause an access of a dangling pointer.  So what happens
+then?  Well, the pointer is dangling because the memory that it used to
+point to is deallocated.  That piece of memory eventually gets reallocated
+to hold other values (in this case, when a new stack frame is allocated).
+If that value is an address, you would get nondeterministic behavior.
+
+In any case, it is a memory error that needs to be fixed!  So let's see if
+ASAN can help us this time as well:
 
 ```
 $ ./stack_pointer_return.asan
@@ -363,7 +373,7 @@ SUMMARY: AddressSanitizer: SEGV /home/PITT/wahn/nondeterminism/C/stack_pointer_r
 ```
 
 Again, stack_pointer_return.c:7 is flagged as an illegal read because it is
-attempting to read a location that has already been deallocated.
+attempting to read a location that has already been deallocated.  
 
 ### Debugging
 
