@@ -34,7 +34,7 @@ Linux servers at thoth.cs.pitt.edu.
 
 If you use Windows, please follow these steps:
 
-1. Every OS comes with an SSH commandline client nowadays.  Open a commandline shell (e.g. cmd) then type:
+1. Every OS comes with an SSH commandline client nowadays.  Open a commandline shell (e.g. cmd, terminal) then type:
    ```
    $ ssh USERNAME@thoth.cs.pitt.edu
    ```
@@ -48,7 +48,7 @@ If you use Windows, please follow these steps:
 
 Once logged in, you may see an unsettling welcome message showing system
 diagnostics.  Don't panic, the machine is just going through some system
-updates and admins haven't yet settled on a nice welcome message yet. :) 
+updates and admins haven't yet settled on a nice welcome message. :) 
 
 ## Building
 
@@ -194,13 +194,38 @@ setting.
 ### Using Google ASAN (Address Sanitizer)
 
 stack_overflow.c is a buggy program that demonstrates the stack buffer overflow
-issue that we discussed in the lecture.  It tries to send bytes beyond the
-bounds of the 'data' array and ends up sending the 'next' pointer value along
-with the data.  It displays nondeterministic behavior due to the pointer
-value leaking out:
+issue that we discussed in the lecture.  In the main function, it starts by
+creating a linked list of 3 nodes on the stack.  Then, it sends 16 bytes of
+first.data to the screen:
+
+```
+send_data(first.data, 16);
+```
+
+First, let's try executing the program a few times as before:
 
 ```
 $ ./stack_overflow.bin
+[Sent data]
+48 65 6c 6c 6f 2e 2e  0 b0 eb 75 61 fd 7f  0  0
+$ ./stack_overflow.bin
+[Sent data]
+48 65 6c 6c 6f 2e 2e  0 b0 49 e2 96 fc 7f  0  0
+$ ./stack_overflow.bin
+[Sent data]
+48 65 6c 6c 6f 2e 2e  0 f0 66 5f 9d ff 7f  0  0
+```
+
+You can see that this is also a nondeterministic program.  But we only sent
+data to the output and no addresses this time, so where did the nondeterminism
+come from?  If you look more closely, you will notice that the first 8 bytes do
+not change from run to run.  If you know ASCII code, you will be able to
+decypher it to he the "Hello.." string (with nul terminator) inside first.data.
+Then, what are the second 8 bytes that keep on changing?  For that, let's try
+running stack_overflow in verbose mode using the "-v" option:
+
+```
+$ ./stack_overflow.bin -v
 [Stack]
 third.data = .......
 third.next = (nil)
@@ -210,70 +235,32 @@ first.data = Hello.. <--- Sent!
 first.next = 0x7ffd6175eba0
 [Sent data]
 48 65 6c 6c 6f 2e 2e  0 b0 eb 75 61 fd 7f  0  0
-$ ./stack_overflow.bin
-[Stack]
-third.data = .......
-third.next = (nil)
-second.data = World..
-second.next = 0x7ffc96e249b0 <--- Sent!
-first.data = Hello.. <--- Sent!
-first.next = 0x7ffc96e249a0
-[Sent data]
-48 65 6c 6c 6f 2e 2e  0 b0 49 e2 96 fc 7f  0  0
-$ ./stack_overflow.bin
-[Stack]
-third.data = .......
-third.next = (nil)
-second.data = World..
-second.next = 0x7fff9d5f66f0 <--- Sent!
-first.data = Hello.. <--- Sent!
-first.next = 0x7fff9d5f66e0
-[Sent data]
-48 65 6c 6c 6f 2e 2e  0 f0 66 5f 9d ff 7f  0  0
 ```
 
-The first 8 bytes of the output (48 65 6c 6c 6f 2e 2e  0) is the ASCII code
-representation of the "Hell..o" string in the 'data' array, and is therefore
-deterministic.  The last 8 bytes of the output is the 'next' pointer of the
-'second' node that is above it in the stack memory layout, and is therefore
-randomized by ASLR.  Note that the address is flipped due to little endian
-notation used by the underlying Intel CPU architecture.
+You will notice that the second 8 bytes is the pointer address inside
+second.next (in reverse, since x86 architecture uses little endian ordering)!
+So why is second.next being sent along with first.data?  That is because the
+first.data buffer is only 8 bytes long, so when send_data attempts to send 16
+bytes, it also sends the 8 bytes that come after first.data, which in the stack
+layout happens to be second.next.
 
-Of course, you could again turn off ASLR to make the buggy program run
-deterministically at least while debugging:
+In short, the address inside second.next **leaks out** to program output even
+though the programmer never intended it in the source code.  And this address
+randomized by ASLR is what is causing the nondeterminism.  Of course, you could
+again turn off ASLR to make the buggy program run deterministically at least
+while debugging:
 
 ```
 $ ./run_aslr_off.sh ./stack_overflow.bin
 setarch x86_64 -R ./a.out
-[Stack]
-third.data = .......
-third.next = (nil)
-second.data = World..
-second.next = 0x7fffffffe3e0 <--- Sent!
-first.data = Hello.. <--- Sent!
-first.next = 0x7fffffffe3d0
 [Sent data]
 48 65 6c 6c 6f 2e 2e  0 e0 e3 ff ff ff 7f  0  0
 $ ./run_aslr_off.sh ./stack_overflow.bin
 setarch x86_64 -R ./a.out
-[Stack]
-third.data = .......
-third.next = (nil)
-second.data = World..
-second.next = 0x7fffffffe3e0 <--- Sent!
-first.data = Hello.. <--- Sent!
-first.next = 0x7fffffffe3d0
 [Sent data]
 48 65 6c 6c 6f 2e 2e  0 e0 e3 ff ff ff 7f  0  0
 $ ./run_aslr_off.sh ./stack_overflow.bin
 setarch x86_64 -R ./a.out
-[Stack]
-third.data = .......
-third.next = (nil)
-second.data = World..
-second.next = 0x7fffffffe3e0 <--- Sent!
-first.data = Hello.. <--- Sent!
-first.next = 0x7fffffffe3d0
 [Sent data]
 48 65 6c 6c 6f 2e 2e  0 e0 e3 ff ff ff 7f  0  0
 ```
@@ -318,10 +305,11 @@ ASAN is able to pinpoint exactly where the illegal "READ of size 1" happened at
 stack_overflow.c:12!  That is where the out of bounds array access happens.
 Below that line is the stack trace so we know the calling context.
 
-stack_pointer_return.c is a buggy program with a common error where a function
-returns a pointer to a local array.  When the function returns, the local array
-is deallocated with the rest of the function frame as it is now out of scope,
-thereby leaving the pointer dangling.  It leads to a segmentation fault:
+stack_pointer_return.c is another buggy program with a common error where a
+function returns a pointer to a local array.  When the function returns, the
+local array is deallocated with the rest of the function frame as it is now out
+of scope, thereby leaving the pointer dangling.  It leads to a segmentation
+fault:
 
 ```
 $ ./stack_pointer_return.bin
@@ -383,13 +371,6 @@ Now, you should now see the data properly sent to the output in both cases:
 
 ```
 $ ./stack_overflow.asan 
-[Stack]
-third.data = .......
-third.next = (nil)
-second.data = World..
-second.next = 0x7ffd954a2a10 <--- Sent!
-first.data = Hello.. <--- Sent!
-first.next = 0x7ffd954a2a00
 [Sent data]
 48 65 6c 6c 6f 2e 2e  0
 ```
@@ -402,52 +383,15 @@ $ ./stack_pointer_return.asan
 Since there are no memory errors, the ASAN instrumentation should not output
 any errors.
 
-## Testing and Debugging Datarace Errors
+If you are stuck debugging the programs, here are some hints:
 
-### Using Google TSAN (Thread Sanitizer)
-
-datarace.c is a buggy program with a datarace on the variable 'shared'.  Hence,
-everytime you run the program you will get nondeterministic output:
-
-```
-$ ./datarace.bin
-shared=1024461
-$ ./datarace.bin
-shared=1041862
-$ ./datarace.bin
-shared=1021775
-```
-
-Now let's try using TSAN to discover this bug by running the instrumented binary:
-
-```
-$ ./datarace.tsan
-==================
-WARNING: ThreadSanitizer: data race (pid=473522)
-  Read of size 4 at 0x557ee2a4d014 by main thread:
-    #0 add /home/PITT/wahn/nondeterminism/C/datarace.c:7 (datarace.tsan+0x129a)
-    #1 main /home/PITT/wahn/nondeterminism/C/datarace.c:16 (datarace.tsan+0x1325)
-
-  Previous write of size 4 at 0x557ee2a4d014 by thread T1:
-    #0 add /home/PITT/wahn/nondeterminism/C/datarace.c:7 (datarace.tsan+0x12af)
-    #1 <null> <null> (libtsan.so.0+0x2d1af)
-
-  Location is global 'shared' of size 4 at 0x557ee2a4d014 (datarace.tsan+0x000000004014)
-
-  Thread T1 (tid=473524, running) created by main thread at:
-    #0 pthread_create <null> (libtsan.so.0+0x5ea99)
-    #1 main /home/PITT/wahn/nondeterminism/C/datarace.c:14 (datarace.tsan+0x131b)
-
-SUMMARY: ThreadSanitizer: data race /home/PITT/wahn/nondeterminism/C/datarace.c:7 in add
-==================
-shared=1921984
-ThreadSanitizer: reported 1 warnings
-```
-
-It tells you exactly what each thread was doing to cause the datarace.  The
-"main thread" was executing add in line datarace.c:7 and "thread T1" (the
-child thread) was likewise executing add at the same source line.  That is
-exactly where the unprotected 'shared++' is happening.
+1. stack_overflow.c contains a stack overflow, so the solution is to reduce the
+   number of bytes to fit within the provided buffer.
+1. stack_pointer_return.c is attempting to return a pointer to a stack
+   location.  One way to fix it is to declare the array to be a static local
+variable so that it gets moved from the stack to static memory which has
+persistent duration.  If you still need more help, here is a decent tutorial:
+https://www.geeksforgeeks.org/return-local-array-c-function/
 
 ### Comparing Google ASAN with Valgrind
 
@@ -502,6 +446,53 @@ instrument binaries without the need of source code and without the need of
 recompilation.  But if you do have the source code (which is typically the case
 for tested software), most people would prefer ASAN over Valgrind.
 
+## Testing and Debugging Datarace Errors
+
+### Using Google TSAN (Thread Sanitizer)
+
+datarace.c is a buggy program with a datarace on the variable 'shared'.  Hence,
+everytime you run the program you will get nondeterministic output:
+
+```
+$ ./datarace.bin
+shared=1024461
+$ ./datarace.bin
+shared=1041862
+$ ./datarace.bin
+shared=1021775
+```
+
+Now let's try using TSAN to discover this bug by running the instrumented binary:
+
+```
+$ ./datarace.tsan
+==================
+WARNING: ThreadSanitizer: data race (pid=473522)
+  Read of size 4 at 0x557ee2a4d014 by main thread:
+    #0 add /home/PITT/wahn/nondeterminism/C/datarace.c:7 (datarace.tsan+0x129a)
+    #1 main /home/PITT/wahn/nondeterminism/C/datarace.c:16 (datarace.tsan+0x1325)
+
+  Previous write of size 4 at 0x557ee2a4d014 by thread T1:
+    #0 add /home/PITT/wahn/nondeterminism/C/datarace.c:7 (datarace.tsan+0x12af)
+    #1 <null> <null> (libtsan.so.0+0x2d1af)
+
+  Location is global 'shared' of size 4 at 0x557ee2a4d014 (datarace.tsan+0x000000004014)
+
+  Thread T1 (tid=473524, running) created by main thread at:
+    #0 pthread_create <null> (libtsan.so.0+0x5ea99)
+    #1 main /home/PITT/wahn/nondeterminism/C/datarace.c:14 (datarace.tsan+0x131b)
+
+SUMMARY: ThreadSanitizer: data race /home/PITT/wahn/nondeterminism/C/datarace.c:7 in add
+==================
+shared=1921984
+ThreadSanitizer: reported 1 warnings
+```
+
+It tells you exactly what each thread was doing to cause the datarace.  The
+"main thread" was executing add in line datarace.c:7 and "thread T1" (the
+child thread) was likewise executing add at the same source line.  That is
+exactly where the unprotected 'shared++' is happening.
+
 ### Debugging
 
 Modify datarace.c so that it no longer contains datarace errors.  Edit and
@@ -512,6 +503,12 @@ shared variable incremented 2000000 times every time you run it:
 $ ./datarace.bin
 shared=2000000
 ```
+
+Hint: you will have to use the pthreads mutex API to acquire and relase the
+lock while the update to the shared variable is happening.  Use the
+pthread_mutex_init, pthread_mutex_lock, and pthread_mutex_unlock APIs you
+learned in CS 449.  If you need more of a reminder, here is a short tutorial:
+https://www.geeksforgeeks.org/mutex-lock-for-linux-thread-synchronization/
 
 ## Submission
 
@@ -534,3 +531,10 @@ Compare your debugged files in the end and submit!
 * Windows SSH Terminal Client: [Putty](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html)
 * File Transfer Client: [FileZilla](https://filezilla-project.org/download.php?type=client)
 * Linux command line tutorial: [The Linux Command Line](http://linuxcommand.org/lc3_learning_the_shell.php)
+
+Stack overflow, stack pointer return, and data race are also well know security
+vunerabilities documented by MITRE in the Common Weakness Enumeration (CWE).
+
+* CWE-121: Stack-based Buffer Overflow: https://cwe.mitre.org/data/definitions/121.html
+* CWE-562: Return of Stack Variable Address: https://cwe.mitre.org/data/definitions/562.html
+* CWE-362: Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition'): https://cwe.mitre.org/data/definitions/362.html
