@@ -1,9 +1,11 @@
-//TODO: Import libraries as needed
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class SortedCollection {
 	// TODO: Add member variables or methods as needed
-
+	
+	private ArrayList<Integer> list=new ArrayList<Integer>();
+	
 	/**
 	 * Adds the number n to the collection.
 	 * 
@@ -11,7 +13,15 @@ public class SortedCollection {
 	 * @return always returns true
 	 */
 	public boolean add(int n) {
-		// TODO: Implement
+		
+		
+		
+			int i=0;
+			for(i=0;i<list.size() && list.get(i)<n;i++){
+				continue;
+			}
+			list.add(i,n);
+				
 		return true;
 	}
 
@@ -23,7 +33,12 @@ public class SortedCollection {
 	 */
 	public int remove() throws NoSuchElementException {
 		// TODO: Implement
-		return 0;
+		if(list.size()==0){
+			throw new NoSuchElementException();
+		}
+		else{
+			return list.remove(0);
+		}
 	}
 
 	/**
@@ -45,7 +60,17 @@ public class SortedCollection {
 			showUsage();
 			return;
 		}
+
 		
+		for(int i=0;i<args.length;i++){
+			try{
+			collection.add(Integer.parseInt(args[i]));
+			}
+			catch(NumberFormatException e){
+				showUsage();
+				return;
+			}
+		}
 		// TODO: add numbers in commandline arguments to collection using the add(int) method.
 		// If any commandline argument is not a number, call showUsage() and return.
 		
@@ -54,6 +79,6 @@ public class SortedCollection {
 			int num = collection.remove();
 			System.out.print(num + " ");
 		}
-		System.out.println();
+		System.out.println();		
 	}
 }
